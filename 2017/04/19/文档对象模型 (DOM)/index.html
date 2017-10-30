@@ -1,0 +1,237 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="Front-Fa Frontend"><meta name="keywords" content="life,poetry,truth,myknow,knowledges"><title>文档对象模型 (DOM) | 路漫漫其修远兮</title><link rel="stylesheet" type="text/css" href="//fonts.css.network/css?family=Source+Code+Pro"><link rel="stylesheet" type="text/css" href="/css/style.css?v=2.0.1"><link rel="stylesheet" type="text/css" href="/css/highlight.css?v=2.0.1"><link rel="Shortcut Icon" href="/favicon.ico"><link rel="bookmark" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">文档对象模型 (DOM)</h1><a id="logo" href="/.">路漫漫其修远兮</a><p class="description">--高山仰止，景行景止</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div><div id="search-form"><div id="result-mask" class="hide"></div><label><input id="search-key" type="text" autocomplete="off" placeholder="Arama"></label><div id="result-wrap" class="hide"><div id="search-result"></div></div><div class="hide"><template id="search-tpl"><div class="item"><a href="/{path}" title="{title}"><div class="title">{title}</div><div class="time">{date}</div><div class="tags">{tags}</div></a></div></template></div></div></div><div id="layout" class="layout-g"><div class="layout-l"><div class="content_container"><div class="post"><h1 class="post-title">文档对象模型 (DOM)</h1><div class="post-meta"><a href="/2017/04/19/文档对象模型 (DOM)/#comments" class="comment-count"></a><p><span class="date">Apr 19, 2017</span><span><a href="/categories/DOM-API/" class="category">DOM API</a><a href="/categories/DOM-API/JavaScript/" class="category">JavaScript</a></span><span><i id="busuanzi_container_page_pv"><i id="busuanzi_value_page_pv"></i><i>点击</i></i></span></p></div><div class="post-content"><h5 id="文档对象模型-DOM"><a href="#文档对象模型-DOM" class="headerlink" title="文档对象模型 (DOM)"></a>文档对象模型 (DOM)</h5><p>文档对象模型 (DOM) 是HTML和XML文档的编程接口。它提供了对文档的结构化的表述，并定义了一种方式可以使从程序中对该结构进行访问，从而改变文档的结构，样式和内容。DOM 将文档解析为一个由节点和对象（包含属性和方法的对象）组成的结构集合。简言之，它会将web页面和脚本或程序语言连接起来。</p>
+<p><strong>节点</strong></p>
+<p>一个文档的所有节点，按照所在的层级，可以抽象成一种树状结构。这种树状结构就是DOM。</p>
+<p>DOM的最小组成单位叫做节点（node）。文档的树形结构（DOM树），就是由各种不同类型的节点组成。每个节点可以看作是文档树的一片叶子。</p>
+<p>节点的类型有七种。</p>
+<ul>
+<li><code>Document</code>：整个文档树的顶层节点</li>
+<li><code>DocumentType</code>：<code>doctype</code>标签（比如<code>&lt;!DOCTYPE html&gt;</code>）</li>
+<li><code>Element</code>：网页的各种HTML标签（比如<code>&lt;body&gt;</code>、<code>&lt;a&gt;</code>等）</li>
+<li><code>Attribute</code>：网页元素的属性（比如<code>class=&quot;right&quot;</code>）</li>
+<li><code>Text</code>：标签之间或标签包含的文本</li>
+<li><code>Comment</code>：注释</li>
+<li><code>DocumentFragment</code>：文档的片段</li>
+</ul>
+<p>这七种节点都属于浏览器原生提供的节点对象的派生对象，具有一些共同的属性和方法。</p>
+<p><strong>节点属性</strong></p>
+<p>所有节点对象都是浏览器内置的<code>Node</code>对象的实例，继承了<code>Node</code>属性和方法。这是所有节点的共同特征。</p>
+<ul>
+<li><p><strong>Node.parentNode</strong></p>
+<p><code>parentNode</code>属性返回当前节点的父节点。对于一个节点来说，它的父节点只可能是三种类型：<code>element</code>节点、<code>document</code>节点和<code>documentfragment</code>节点。</p>
+</li>
+<li><p><strong>Node.parentElement</strong></p>
+<p>parentElement属性返回当前节点的父Element节点。如果当前节点没有父节点，或者父节点类型不是Element节点，则返回null。</p>
+</li>
+<li><p><strong>Node.childNodes</strong></p>
+<p>childNodes属性返回一个NodeList集合，成员包括当前节点的所有子节点。注意，除了HTML元素节点，该属性返回的还包括Text节点和Comment节点。如果当前节点不包括任何子节点，则返回一个空的NodeList集合。由于NodeList对象是一个动态集合，一旦子节点发生变化，立刻会反映在返回结果之中。注意与<code>Element.children</code>属性区别。</p>
+</li>
+<li><p><strong>Node.firstChild，Node.lastChild</strong></p>
+<p><code>firstChild</code>属性返回当前节点的第一个子节点，如果当前节点没有子节点，则返回<code>null</code>（注意，不是<code>undefined</code>）。</p>
+<p>注意，<code>firstChild</code>返回的除了HTML元素子节点，还可能是文本节点或注释节点。而<code>Element.firstElementChild，Element.lastElementChild</code>则只返回element节点类型。</p>
+<p><code>Node.lastChild</code>属性返回当前节点的最后一个子节点，如果当前节点没有子节点，则返回null。</p>
+</li>
+</ul>
+<h5 id="节点对象方法"><a href="#节点对象方法" class="headerlink" title="节点对象方法"></a>节点对象方法</h5><ol>
+<li><p><strong>Node.appendChild()</strong></p>
+<p><code>Node.appendChild</code>方法接受一个节点对象作为参数，将其作为最后一个子节点，插入当前节点。如果参数节点是DOM中已经存在的节点，<code>appendChild</code>方法会将其从原来的位置，移动到新位置。</p>
+</li>
+<li><p><strong>Node.hasChildNodes()</strong></p>
+<p><code>Node.hasChildNodes</code>方法返回一个布尔值，表示当前节点是否有子节点。</p>
+</li>
+<li><p><strong>Node.cloneNode()</strong></p>
+<p><code>Node.cloneNode</code>方法用于克隆一个节点。它接受一个布尔值作为参数，表示是否同时克隆子节点，默认是<code>false</code>，即不克隆子节点。需要注意的是，克隆一个节点，会拷贝该节点的所有属性，但是会丧失<code>addEventListener</code>方法和<code>on-</code>属性（即<code>node.onclick = fn</code>），添加在这个节点上的事件回调函数。</p>
+<p>克隆一个节点之后，DOM树有可能出现两个有相同ID属性（即<code>id=&quot;xxx&quot;</code>）的HTML元素，这时应该修改其中一个HTML元素的ID属性。</p>
+</li>
+<li><p><strong>Node.insertBefore()</strong></p>
+<p><code>Node.insertBefore</code>方法用于将某个节点插入当前节点的指定位置。它接受两个参数，第一个参数是所要插入的节点，第二个参数是当前节点的一个子节点，新的节点将插在这个节点的前面。该方法返回被插入的新节点。</p>
+<p>如果<code>insertBefore</code>方法的第二个参数为<code>null</code>，则新节点将插在当前节点的最后位置，即变成最后一个子节点。</p>
+<p><strong>注意，如果所要插入的节点是当前DOM现有的节点，则该节点将从原有的位置移除，插入新的位置。</strong></p>
+<p>由于不存在<code>insertAfter</code>方法，如果要插在当前节点的某个子节点后面，可以用<code>insertBefore</code>方法结合<code>nextSibling</code>属性模拟。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">parentDiv.insertBefore(s1, s2.nextSibling);</div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Node.removeChild()</strong></p>
+<p><code>Node.removeChild</code>方法接受一个子节点作为参数，用于从当前节点移除该子节点。它返回被移除的子节点。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var divA = document.getElementById(&apos;A&apos;);</div><div class="line">divA.parentNode.removeChild(divA);</div></pre></td></tr></table></figure>
+<p>上面代码是如何移除一个指定节点。</p>
+<p>注意，这个方法是在父节点上调用的，不是在被移除的节点上调用的。</p>
+<p>被移除的节点依然存在于内存之中，但不再是DOM的一部分。所以，一个节点移除以后，依然可以使用它，比如插入到另一个节点下面。</p>
+</li>
+<li><p><strong>Node.replaceChild()</strong></p>
+<p><code>Node.replaceChild</code>方法用于将一个新的节点，替换当前节点的某一个子节点。它接受两个参数，第一个参数是用来替换的新节点，第二个参数将要被替换走的子节点。它返回被替换走的那个节点。</p>
+</li>
+<li><p><strong>Node.contains()</strong></p>
+<p><code>Node.contains</code>方法接受一个节点作为参数，返回一个布尔值，表示参数节点是否为当前节点的后代节点。注意，如果将当前节点传入contains方法，会返回true。虽然从意义上说，一个节点不应该包含自身。</p>
+<p>​</p>
+</li>
+</ol>
+<h5 id="DOM-API-获取元素的多种方法："><a href="#DOM-API-获取元素的多种方法：" class="headerlink" title="DOM API 获取元素的多种方法："></a>DOM API 获取元素的多种方法：</h5><ul>
+<li><p><strong>document.querySelector(selector)</strong></p>
+<p><code>document.querySelector</code>方法接受一个CSS选择器作为参数，返回匹配该选择器的元素节点。如果有多个节点满足匹配条件，则返回第一个匹配的节点。如果没有发现匹配的节点，则返回<code>null</code>。</p>
+</li>
+<li><p><strong>docuemnt.querySelectorAll(selectors)</strong></p>
+<p><code>document.querySelectorAll</code>方法与<code>querySelector</code>用法类似，区别是返回一个<code>NodeList</code>对象，包含所有匹配给定选择器的节点。</p>
+<p>这两个方法的参数，可以是逗号分隔的多个CSS选择器，返回匹配其中一个选择器的元素节点。</p>
+</li>
+<li><p><strong>document.getElementsByTagName(tagName)</strong></p>
+<p><code>document.getElementsByTagName</code>方法返回所有指定HTML标签的元素，返回值是一个类似数组的<code>HTMLCollection</code>对象，可以实时反映HTML文档的变化。如果没有任何匹配的元素，就返回一个空集。HTML标签名是大小写不敏感的，因此<code>getElementsByTagName</code>方法也是大小写不敏感的。另外，返回结果中，各个成员的顺序就是它们在文档中出现的顺序。注意，HTML元素本身也定义了<code>getElementsByTagName</code>方法，返回该元素的后代元素中符合指定标签的元素。也就是说，这个方法不仅可以在<code>document</code>对象上调用，也可以在任何元素节点上调用。</p>
+</li>
+<li><p><strong>document.getElementsByClassName(className)</strong></p>
+<p><code>document.getElementsByClassName</code>方法返回一个类似数组的对象（<code>HTMLCollection</code>实例对象），包括了所有<code>class</code>名字符合指定条件的元素，元素的变化实时反映在返回结果中。</p>
+</li>
+<li><p><strong>document.getElementsByName(name)</strong></p>
+<p><code>document.getElementsByName</code>方法用于选择拥有<code>name</code>属性的HTML元素（比如<code>、</code>、<code>、</code>、<code>和</code>等），返回一个类似数组的的对象（<code>NodeList</code>对象的实例），因为<code>name</code>属性相同的元素可能不止一个。</p>
+<p>注意，在IE浏览器使用这个方法，会将没有name属性、但有同名id属性的元素也返回，所以name和id属性最好设为不一样的值。 </p>
+</li>
+<li><p><strong>document.getElementById(id)</strong></p>
+<p><code>getElementById</code>方法返回匹配指定<code>id</code>属性的元素节点。如果没有发现匹配的节点，则返回<code>null</code>。注意，该方法的参数是大小写敏感的。</p>
+</li>
+<li><p><strong>document.elementFromPoint(x,y)</strong></p>
+<p><code>document.elementFromPoint</code>方法返回位于页面指定位置最上层的Element子节点。</p>
+</li>
+</ul>
+<h5 id="生成节点的方法"><a href="#生成节点的方法" class="headerlink" title="生成节点的方法"></a>生成节点的方法</h5><p>1.<strong>document.createElement(tagName)</strong></p>
+<p><code>document.createElement</code>方法用来生成网页元素节点。<code>createElement</code>方法的参数为元素的标签名，即元素节点的<code>tagName</code>属性，对于 HTML 网页大小写不敏感，即参数为<code>div</code>或<code>DIV</code>返回的是同一种节点。如果参数里面包含尖括号（即<code>&lt;</code>和<code>&gt;</code>）会报错。 </p>
+<p>2.<strong>document.createTextNode(text)</strong></p>
+<p><code>document.createTextNode</code>方法用来生成文本节点，参数为所要生成的文本节点的内容。这个方法可以确保返回的节点，被浏览器当作文本渲染，而不是当作HTML代码渲染。因此，可以用来展示用户的输入，避免<a href="http://blog.csdn.net/ghsau/article/details/17027893" target="_blank" rel="external">XSS攻击</a>。</p>
+<p>3.<strong>document.createAttribute(name)</strong></p>
+<p><code>document.createAttribute</code>方法生成一个新的属性对象节点，并返回它。createAttribute方法的参数name，是属性的名称。只是创建了一个属性节点，如果要使用这个属性节点还要对其进行赋值和放到元素中。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var node = document.getElementById(&quot;div1&quot;);</div><div class="line">var a = document.createAttribute(&quot;my_attrib&quot;);</div><div class="line">a.value = &quot;newVal&quot;;</div><div class="line">node.setAttributeNode(a);</div><div class="line"></div><div class="line">// 等同于</div><div class="line"></div><div class="line">var node = document.getElementById(&quot;div1&quot;);</div><div class="line">node.setAttribute(&quot;my_attrib&quot;, &quot;newVal&quot;);</div></pre></td></tr></table></figure>
+<p>4.<strong>document.createDocumentFragment()</strong></p>
+<p>createDocumentFragment方法生成一个DocumentFragment对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var docFragment = document.createDocumentFragment();</div></pre></td></tr></table></figure>
+<p>DocumentFragment对象是一个存在于内存的DOM片段，但是不属于当前文档，常常用来生成较复杂的DOM结构，然后插入当前文档。这样做的好处在于，因为DocumentFragment不属于当前文档，对它的任何改动，都不会引发网页的重新渲染，比直接修改当前文档的DOM有更好的性能表现。</p>
+<h5 id="元素节点属性"><a href="#元素节点属性" class="headerlink" title="元素节点属性"></a>元素节点属性</h5><ul>
+<li><p><strong>Element.attributes</strong></p>
+<p><code>Element.attributes</code>属性返回一个类似数组的对象，成员是当前元素节点的所有属性节点。</p>
+<p>详见属性操作</p>
+</li>
+<li><p><strong>Element.id，Element.tagName</strong></p>
+<p><code>Element.id</code>属性返回指定元素的<code>id</code>属性，该属性可读写。</p>
+<p><code>Element.tagName</code>属性返回指定元素的大写标签名，与<code>nodeName</code>属性的值相等。</p>
+<p>详见属性操作</p>
+</li>
+<li><p><strong>Element.innerHTML</strong></p>
+<p><code>Element.innerHTML</code>属性返回该元素包含的HTML代码。该属性可读写，常用来设置某个节点的内容。</p>
+<p>如果将该属性设为空，等于删除所有它包含的所有节点。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Element.innerHTML = &apos;&apos;</div></pre></td></tr></table></figure>
+<p>注意，如果文本节点中包含<code>&amp;</code>、小于号（<code>&lt;</code>）和大于号（<code>&gt;</code>），<code>innerHTML</code>属性会将它们转为实体形式<code>&amp;</code>、<code>&lt;</code>、<code>&gt;</code>。由于这个原因，导致用<code>innerHTML</code>插入<code>`标签，不会被执行。</code> 但是<code>alert</code>方法是会执行的。因此为了安全考虑，如果插入的是文本，最好用<code>textContent</code>属性代替<code>innerHTML</code>。</p>
+</li>
+<li><p><strong>Element.outerHTML</strong></p>
+<p><code>Element.outerHTML</code>属性返回一个字符串，内容为指定元素节点的所有HTML代码，包括它自身和包含的所有子元素。</p>
+</li>
+<li><p><strong>Element.className，Element.classList</strong></p>
+<p><code>className</code>属性用来读写当前元素节点的<code>class</code>属性。它的值是一个字符串，每个<code>class</code>之间用空格分割。</p>
+<p><code>classList</code>属性则返回一个类似数组的对象，当前元素节点的每个<code>class</code>就是这个对象的一个成员。该对象的<code>length</code>属性（只读）返回当前元素的<code>class</code>数量。</p>
+<p><strong>classList</strong>对象有下列方法。</p>
+<blockquote>
+<p>add()：增加一个class。</p>
+<p>remove()：移除一个class。</p>
+<p>contains()：检查当前元素是否包含某个class。//返回值：true or false</p>
+<p>toggle()：将某个class移入或移出当前元素。//如果存在就移除，反之加入</p>
+<p>item(index)：返回指定索引位置的class。</p>
+<p>toString()：将class的列表转为字符串。</p>
+</blockquote>
+</li>
+<li><p><strong>Element.children</strong></p>
+<p>这个属性与<code>Node.childNodes</code>属性的区别是，它只包括HTML元素类型的子节点，不包括其他类型的子节点。</p>
+</li>
+<li><p><strong>Element.firstElementChild，Element.lastElementChild</strong></p>
+<p><code>Element.firstElementChild</code>属性返回第一个HTML元素类型的子节点，<code>Element.lastElementChild</code>返回最后一个HTML元素类型的子节点。</p>
+</li>
+<li><p><strong>Element.nextElementSibling，Element.previousElementSibling</strong></p>
+<p><code>Element.nextElementSibling</code>属性返回当前HTML元素节点的后一个同级HTML元素节点，如果没有则返回<code>null</code>。</p>
+<p><code>Element.previousElementSibling</code>属性返回当前HTML元素节点的前一个同级HTML元素节点，如果没有则返回<code>null</code>。</p>
+</li>
+<li><p><strong>Element.getBoundingClientRect()</strong></p>
+<p><code>Element.getBoundingClientRect</code>方法返回一个对象，该对象提供当前元素节点的大小、位置等信息，基本上就是CSS盒状模型提供的所有信息。</p>
+<ul>
+<li><p><code>x</code>：元素左上角相对于视口的横坐标</p>
+</li>
+<li><p><code>left</code>：元素左上角相对于视口的横坐标，与<code>x</code>属性相等</p>
+</li>
+<li><p><code>right</code>：元素右边界相对于视口的横坐标（等于<code>x</code>加上<code>width</code>）</p>
+</li>
+<li><p><code>width</code>：元素宽度（等于<code>right</code>减去<code>left</code>）</p>
+</li>
+<li><p><code>y</code>：元素顶部相对于视口的纵坐标</p>
+</li>
+<li><p><code>top</code>：元素顶部相对于视口的纵坐标，与<code>y</code>属性相等</p>
+</li>
+<li><p><code>bottom</code>：元素底部相对于视口的纵坐标</p>
+</li>
+<li><p><code>height</code>：元素高度（等于<code>y</code>加上<code>height</code>）</p>
+<p>注意，<code>getBoundingClientRect</code>方法的所有属性，都把边框（<code>border</code>属性）算作元素的一部分。也就是说，都是从边框外缘的各个点来计算。因此，<code>width</code>和<code>height</code>包括了元素本身 + <code>padding</code> + <code>border</code>。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>Element.insertAdjacentHTML()</strong></p>
+<p><code>Element.insertAdjacentHTML</code>方法解析HTML字符串，然后将生成的节点插入DOM树的指定位置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">element.insertAdjacentHTML(position, text);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>该方法接受两个参数，第一个是指定位置，第二个是待解析的字符串。</p>
+<p>指定位置共有四个。</p>
+<ol>
+<li><code>beforebegin</code>：在当前元素节点的前面。</li>
+<li><code>afterbegin</code>：在当前元素节点的里面，插在它的第一个子元素之前。</li>
+<li><code>beforeend</code>：在当前元素节点的里面，插在它的最后一个子元素之后。</li>
+<li><code>afterend</code>：在当前元素节点的后面。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// 原来的HTML代码：&lt;div id=&quot;one&quot;&gt;one&lt;/div&gt;</div><div class="line">var d1 = document.getElementById(&apos;one&apos;);</div><div class="line">d1.insertAdjacentHTML(&apos;afterend&apos;, &apos;&lt;div id=&quot;two&quot;&gt;two&lt;/div&gt;&apos;);</div><div class="line">// 现在的HTML代码：</div><div class="line">// &lt;div id=&quot;one&quot;&gt;one&lt;/div&gt;&lt;div id=&quot;two&quot;&gt;two&lt;/div&gt;</div></pre></td></tr></table></figure>
+<p>该方法不是彻底置换现有的DOM结构，这使得它的执行速度比<code>innerHTML</code>操作快得多。</p>
+<ul>
+<li><p><strong>Element.remove()</strong></p>
+<p><code>Element.remove</code>方法用于将当前元素节点从DOM树删除。</p>
+</li>
+</ul>
+<h5 id="属性的操作"><a href="#属性的操作" class="headerlink" title="属性的操作"></a>属性的操作</h5><ol>
+<li><p><strong>Element.attributes属性</strong></p>
+<p>HTML元素对象有一个<code>attributes</code>属性，返回一个类似数组的动态对象，成员是该元素标签的所有属性节点对象，属性的实时变化都会反映在这个节点对象上。其他类型的节点对象，虽然也有<code>attributes</code>属性，但是返回的都是<code>null</code>，因此可以把这个属性视为元素对象独有的。</p>
+</li>
+<li><p><strong>元素节点对象的属性</strong></p>
+<p>HTML元素节点的标准属性（即在标准中定义的属性），会自动成为元素节点对象的属性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var a = document.getElementById(&apos;test&apos;);</div><div class="line">a.id // &quot;test&quot;</div><div class="line">a.href // &quot;http://www.example.com/&quot;</div><div class="line">img.src = &apos;http://www.example.com/image.jpg&apos;;</div></pre></td></tr></table></figure>
+<p>上面代码中，<code>a</code>元素标签的属性<code>id</code>和<code>href</code>，自动成为节点对象的属性。</p>
+<p>这些属性都是可写的。</p>
+</li>
+<li><p><strong>属性操作的标准方法</strong></p>
+<p>元素节点提供四个方法，用来操作属性。</p>
+<ul>
+<li><code>getAttribute()</code></li>
+<li><code>setAttribute()</code></li>
+<li><code>hasAttribute()</code></li>
+<li><code>removeAttribute()</code></li>
+</ul>
+<p>其中，前两个读写属性的方法，与前一部分HTML标签对象的属性（Element.attributes）读写，有三点差异。</p>
+<p>（1）适用性</p>
+<p><code>getAttribute()</code>和<code>setAttribute()</code>对所有属性（包括用户自定义的属性）都适用；HTML标签对象的属性，只适用于标准属性。</p>
+<p>（2）返回值</p>
+<p><code>getAttribute()</code>只返回只字符串，不会返回其他类型的值。HTML标签对象的属性会返回各种类型的值，包括字符串、数值、布尔值或对象。</p>
+<p>（3）属性名</p>
+<p>这些方法只接受属性的标准名称，不用改写保留字，比如<code>for</code>和<code>class</code>都可以直接使用。另外，这些方法对于属性名是大小写不敏感的。</p>
+<ul>
+<li><p><strong>Element.getAttribute()</strong></p>
+<p><code>Element.getAttribute(attrname)</code>方法返回当前元素节点的指定属性。如果指定属性不存在，则返回<code>null</code>。</p>
+</li>
+<li><p><strong>Element.setAttribute()</strong></p>
+<p><code>Element.setAttribute(attrname,attrvalue)</code>方法用于为当前元素节点新增属性。如果同名属性已存在，则相当于编辑已存在的属性。</p>
+</li>
+<li><p><strong>Element.hasAttribute()</strong></p>
+<p><code>Element.hasAttribute</code>方法返回一个布尔值，表示当前元素节点是否包含指定属性。</p>
+</li>
+<li><p><strong>Element.removeAttribute()</strong></p>
+<p><code>Element.removeAttribute</code>方法用于从当前元素节点移除属性。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>dataset属性</strong></p>
+<p>有时，需要在HTML元素上附加数据，供JavaScript脚本使用。一种解决方法是<strong>直接</strong>自定义属性。这种方法虽然可以达到目的，但是会使得HTML元素的属性不符合标准，导致网页的HTML代码通不过校验。</p>
+<p>更好的解决方法是，使用标准提供的<code>data-*</code>属性。</p>
+</li>
+</ol>
+<p>本笔记记录自己学习DOM API，加深自己对其理解学习，文中只列出自己常用及见过的API。</p>
+<p>参考资料：</p>
+<p><a href="http://javascript.ruanyifeng.com/dom/attribute.html" target="_blank" rel="external">阮一峰DOM参考</a></p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Document_Object_Model" target="_blank" rel="external">DOM参考</a></p>
+</div><div class="tags"></div><div class="post-share"><div class="bdsharebuttonbox"><span style="float:left;line-height: 28px;height: 28px;font-size:16px;font-weight:blod">分享到：</span><a href="#" data-cmd="more" class="bds_more"></a><a href="#" data-cmd="mshare" title="分享到一键分享" class="bds_mshare"></a><a href="#" data-cmd="fbook" title="分享到Facebook" class="bds_fbook"></a><a href="#" data-cmd="twi" title="分享到Twitter" class="bds_twi"></a><a href="#" data-cmd="linkedin" title="分享到linkedin" class="bds_linkedin"></a><a href="#" data-cmd="youdao" title="分享到有道云笔记" class="bds_youdao"></a><a href="#" data-cmd="evernotecn" title="分享到印象笔记" class="bds_evernotecn"></a><a href="#" data-cmd="weixin" title="分享到微信" class="bds_weixin"></a><a href="#" data-cmd="qzone" title="分享到QQ空间" class="bds_qzone"></a><a href="#" data-cmd="tsina" title="分享到新浪微博" class="bds_tsina"></a></div></div><div class="post-nav"><a href="/2017/04/25/面向对象/" class="pre"></a><a href="/2017/04/16/原生JS 实现事件委托/" class="next">原生JS 实现事件委托</a></div><div id="comments"></div></div></div></div><div class="layout-r"><div id="sidebar"><div class="search-pla"></div><div id="toc" class="widget"><div class="widget-title"><i class="fa fa-fei">文章目录</i></div><ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#文档对象模型-DOM"><span class="toc-text">文档对象模型 (DOM)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#节点对象方法"><span class="toc-text">节点对象方法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#DOM-API-获取元素的多种方法："><span class="toc-text">DOM API 获取元素的多种方法：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#生成节点的方法"><span class="toc-text">生成节点的方法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#元素节点属性"><span class="toc-text">元素节点属性</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#属性的操作"><span class="toc-text">属性的操作</span></a></li></ol></div><div class="widget"><div class="widget-title"><i class="fa fa-xie"> 最新文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/06/03/HTTP工作原理/">HTTP工作原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/HTTP模型/">OSI七层模型及TCP/IP四层模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/01/动态REM方案/">动态REM方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/21/小知识，大结论/">小知识，大结论</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/npm-practice/">模块加载工具使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/28/模块化/">模块化</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/25/this--原型链--继承/">this--原型链--继承</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/25/面向对象/">面向对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/19/文档对象模型 (DOM)/">文档对象模型 (DOM)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/16/原生JS 实现事件委托/">原生JS 实现事件委托</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-gui"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DOM-API/">DOM API</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/DOM-API/JavaScript/">JavaScript</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/HTML/">HTML</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/HTTP/">HTTP</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/事件/">事件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/基础/">基础</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/ajax/">ajax</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/html/">html</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jQuery/">jQuery</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/npm/">npm</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/npm/gulp/">gulp</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/npm/gulp/webpack/">webpack</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/基础/">基础</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/基础/CSS/">CSS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/基础/小知识/">小知识</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/基础/浏览器/">浏览器</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/基础/算法/">算法</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/模块化/">模块化</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/跨域/">跨域</a><span class="category-list-count">1</span></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-biao"> 标签</i></div><div class="tagcloud"><a href="/tags/事件代理/" style="font-size: 15px;">事件代理</a> <a href="/tags/CSS/" style="font-size: 15px;">CSS</a> <a href="/tags/Form表单/" style="font-size: 15px;">Form表单</a> <a href="/tags/HTTP/" style="font-size: 15px;">HTTP</a> <a href="/tags/Cookie/" style="font-size: 15px;">Cookie</a> <a href="/tags/TCP-IP/" style="font-size: 15px;">TCP/IP</a> <a href="/tags/OSI七层模型/" style="font-size: 15px;">OSI七层模型</a> <a href="/tags/TCP-IP四层模型/" style="font-size: 15px;">TCP/IP四层模型</a> <a href="/tags/ajax/" style="font-size: 15px;">ajax</a> <a href="/tags/后台服务器/" style="font-size: 15px;">后台服务器</a> <a href="/tags/jquery/" style="font-size: 15px;">jquery</a> <a href="/tags/ajax/" style="font-size: 15px;">$.ajax()</a> <a href="/tags/jQuery-ajax/" style="font-size: 15px;">jQuery.ajax</a> <a href="/tags/npm/" style="font-size: 15px;">npm</a> <a href="/tags/gulp/" style="font-size: 15px;">gulp</a> <a href="/tags/webpack/" style="font-size: 15px;">webpack</a> <a href="/tags/函数/" style="font-size: 15px;">函数</a> <a href="/tags/作用域/" style="font-size: 15px;">作用域</a> <a href="/tags/this/" style="font-size: 15px;">this</a> <a href="/tags/prototype/" style="font-size: 15px;">prototype</a> <a href="/tags/继承/" style="font-size: 15px;">继承</a> <a href="/tags/事件模型/" style="font-size: 15px;">事件模型</a> <a href="/tags/DOM属性操作/" style="font-size: 15px;">DOM属性操作</a> <a href="/tags/浏览器兼容/" style="font-size: 15px;">浏览器兼容</a> <a href="/tags/移动端适配/" style="font-size: 15px;">移动端适配</a> <a href="/tags/动态REM/" style="font-size: 15px;">动态REM</a> <a href="/tags/小知识/" style="font-size: 15px;">小知识</a> <a href="/tags/完整的事件代理/" style="font-size: 15px;">完整的事件代理</a> <a href="/tags/懒加载/" style="font-size: 15px;">懒加载</a> <a href="/tags/meta/" style="font-size: 15px;">meta</a> <a href="/tags/字符/" style="font-size: 15px;">字符</a> <a href="/tags/Unicode/" style="font-size: 15px;">Unicode</a> <a href="/tags/UTF-8/" style="font-size: 15px;">UTF-8</a> <a href="/tags/排序算法/" style="font-size: 15px;">排序算法</a> <a href="/tags/AMD/" style="font-size: 15px;">AMD</a> <a href="/tags/CMD/" style="font-size: 15px;">CMD</a> <a href="/tags/requirejs/" style="font-size: 15px;">requirejs</a> <a href="/tags/r-js/" style="font-size: 15px;">r.js</a> <a href="/tags/浏览器/" style="font-size: 15px;">浏览器</a> <a href="/tags/渲染/" style="font-size: 15px;">渲染</a> <a href="/tags/正则表达式/" style="font-size: 15px;">正则表达式</a> <a href="/tags/浮动/" style="font-size: 15px;">浮动</a> <a href="/tags/定位/" style="font-size: 15px;">定位</a> <a href="/tags/同源策略/" style="font-size: 15px;">同源策略</a> <a href="/tags/跨域/" style="font-size: 15px;">跨域</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-archive"> 归档</i></div><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-you"> 友情链接</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div></div><a id="totop" href="#top"></a><div id="footer"><div class="footer-info"><p><a href="/baidusitemap.xml">Baidu Site Haritası</a> |  <a href="/atom.xml">订阅</a> |  <a href="/about/">关于</a></p><p>本站总访问量：<i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>次</p><p><span> Copyright &copy;<a href="/." rel="nofollow">Ding.</a></span><span> Theme by<a rel="nofollow" target="_blank" href="https://github.com/chaooo/hexo-theme-BlueLake"> BlueLake.</a></span><span> Count by<a href="http://busuanzi.ibruce.info/"> busuanzi.</a></span><span> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a></span></p></div></div></div><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><script type="text/javascript" src="/js/search.json.js?v=2.0.1"></script><script type="text/javascript" src="/js/toctotop.js?v=2.0.1" async></script><script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","weixin","tsina","qzone","linkedin","fbook","twi","print","renren","sqq","evernotecn","bdysc","tqq","tqf","bdxc","kaixin001","tieba","douban","bdhome","thx","ibaidu","meilishuo","mogujie","diandian","huaban","duitang","hx","fx","youdao","sdo","qingbiji","people","xinhua","mail","isohu","yaolan","wealink","ty","iguba","h163","copy"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["tsina","qzone","weixin","fbook","twi","linkedin","youdao","evernotecn","mshare"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["tsina","qzone","weixin","fbook","twi","linkedin","youdao","evernotecn","mshare"]}};with(document)0[(getElementsByTagName('head')[0]||head).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script></body></html>
